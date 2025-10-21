@@ -1,8 +1,14 @@
-# PEII Helm Chart
+# 🚨 On Call Runbook
 
-A Helm chart for deploying applications on Kubernetes.
+**Your Essential DevOps & Kubernetes Troubleshooting Guide**
 
-https://on-call-run-book.vercel.app/
+📚 **Live Documentation:** https://on-call-run-book.vercel.app/
+
+---
+
+## Helm Chart Guide
+
+A comprehensive Helm chart for deploying applications on Kubernetes.
 
 ## Prerequisites
 

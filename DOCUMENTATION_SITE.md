@@ -1,6 +1,6 @@
-# 📚 PEII Documentation Site
+# 🚨 On Call Runbook
 
-A beautiful, modern documentation website built with Next.js and Tailwind CSS, optimized for Vercel deployment.
+A beautiful, modern documentation website built with Next.js and Tailwind CSS, optimized for Vercel deployment. Your essential companion for on-call troubleshooting!
 
 ## 🎯 What You Got
 
@@ -13,9 +13,12 @@ A beautiful, modern documentation website built with Next.js and Tailwind CSS, o
 - Fast static site generation
 
 📖 **Documentation Sections:**
-1. **Helm Chart** - Complete guide for PEII Helm deployments
+1. **Helm Chart** - Complete guide for Helm deployments
 2. **Kubernetes** - Comprehensive troubleshooting runbook
 3. **Terraform** - Infrastructure troubleshooting guide
+4. **ArgoCD** - GitOps deployment and management
+5. **GitOps CI** - CI/CD pipeline guides
+6. **Templates** - Interactive Helm template viewer/editor
 
 ## 🚀 Deploy to Vercel (2 Minutes)
 
@@ -54,13 +57,14 @@ npm run start
 ## 📁 Project Structure
 
 ```
-peii/
+on-call-runbook/
 ├── app/
-│   ├── page.tsx        # Main documentation page with tabs
+│   ├── page.tsx        # Main documentation page with 6 tabs
 │   ├── layout.tsx      # App layout with metadata
 │   └── globals.css     # Global styles + markdown styling
+├── templates/          # Helm chart templates
 ├── package.json        # Dependencies
-├── next.config.js      # Next.js config for static export
+├── next.config.js      # Next.js config
 ├── tailwind.config.ts  # Tailwind CSS config
 └── vercel.json         # Vercel deployment config
 ```

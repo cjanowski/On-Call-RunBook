@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'PEII Documentation',
-  description: 'Helm Chart and DevOps Troubleshooting Guides',
+  title: 'On Call Runbook',
+  description: 'Essential DevOps, Kubernetes & Terraform Troubleshooting Guide',
 }
 
 export default function RootLayout({

@@ -4,9 +4,9 @@ import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-const helmChartDocs = `# PEII Helm Chart
+const helmChartDocs = `# Helm Chart Reference
 
-A Helm chart for deploying applications on Kubernetes.
+A comprehensive Helm chart guide for deploying applications on Kubernetes.
 
 ## Prerequisites
 
@@ -31,12 +31,12 @@ helm uninstall my-release
 
 ## Configuration
 
-The following table lists the configurable parameters of the PEII chart and their default values.
+The following table lists the configurable parameters and their default values.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | \`replicaCount\` | Number of replicas | \`2\` |
-| \`image.repository\` | Image repository | \`nginx\` |
+| \`image.repository\` | Image repository | \`your-app\` |
 | \`image.tag\` | Image tag | \`latest\` |
 | \`image.pullPolicy\` | Image pull policy | \`IfNotPresent\` |
 | \`service.type\` | Kubernetes service type | \`ClusterIP\` |
@@ -1291,10 +1291,10 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                PEII Documentation
+                On Call Runbook
               </h1>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Helm Charts, DevOps Guides & GitOps Templates
+                Your Essential DevOps & Kubernetes Troubleshooting Guide
               </p>
             </div>
             <div className="flex items-center space-x-2">
@@ -1423,7 +1423,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-          <p>Made with ❤️ for DevOps Engineers</p>
+          <p>🚨 Made with ❤️ for On-Call Engineers • Your 3 AM Best Friend</p>
         </footer>
       </div>
     </div>
