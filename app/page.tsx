@@ -1244,26 +1244,56 @@ export default function Home() {
 
   const currentDoc = activeTab === 'templates' ? '' : docs[activeTab as keyof typeof docs]
   
-  // Enhanced search that finds sections containing the search term
+  // Enhanced search that works across ALL tabs
   const getFilteredContent = () => {
-    if (!searchTerm || activeTab === 'templates') return currentDoc
+    if (!searchTerm) return currentDoc
+    if (activeTab === 'templates') return ''
     
     const lowerSearch = searchTerm.toLowerCase()
-    const sections = currentDoc.split('\n## ')
+    const allResults: Array<{ tab: string; icon: string; sections: string[] }> = []
     
-    // Search through all content including titles and body
-    const matchingSections = sections.filter(section => 
-      section.toLowerCase().includes(lowerSearch)
-    )
-    
-    if (matchingSections.length === 0) {
-      return `# No results found for "${searchTerm}"\n\nTry searching for:\n- Command names (kubectl, helm, terraform)\n- Error messages\n- Resource types (pod, service, deployment)\n- Keywords (crash, sync, deploy)`
+    // Search through all documentation tabs
+    const tabInfo = {
+      helm: { name: 'Helm Chart', icon: '🚢' },
+      kubernetes: { name: 'Kubernetes', icon: '☸️' },
+      terraform: { name: 'Terraform', icon: '🏗️' },
+      argocd: { name: 'ArgoCD', icon: '🔄' },
+      gitops: { name: 'GitOps CI', icon: '🚀' },
     }
     
-    // Reconstruct the document with matching sections
-    return matchingSections.map((section, index) => 
-      index === 0 ? section : '## ' + section
-    ).join('\n')
+    Object.entries(docs).forEach(([tabKey, content]) => {
+      const sections = content.split('\n## ')
+      const matchingSections = sections.filter(section => 
+        section.toLowerCase().includes(lowerSearch)
+      )
+      
+      if (matchingSections.length > 0) {
+        const tabData = tabInfo[tabKey as keyof typeof tabInfo]
+        allResults.push({
+          tab: tabData.name,
+          icon: tabData.icon,
+          sections: matchingSections
+        })
+      }
+    })
+    
+    if (allResults.length === 0) {
+      return `# No results found for "${searchTerm}"\n\nTry searching for:\n- Command names (kubectl, helm, terraform, argocd)\n- Error messages (CrashLoopBackOff, ImagePullBackOff, locked)\n- Resource types (pod, service, deployment, ingress)\n- Keywords (sync, deploy, rollback, monitoring)`
+    }
+    
+    // Build comprehensive results from all tabs
+    let resultDoc = `# Search Results for "${searchTerm}"\n\nFound ${allResults.reduce((acc, r) => acc + r.sections.length, 0)} matching sections across ${allResults.length} ${allResults.length === 1 ? 'page' : 'pages'}.\n\n---\n\n`
+    
+    allResults.forEach(result => {
+      resultDoc += `\n# ${result.icon} ${result.tab}\n\n`
+      result.sections.forEach((section, index) => {
+        const sectionContent = index === 0 ? section : '## ' + section
+        resultDoc += sectionContent + '\n\n'
+      })
+      resultDoc += '---\n\n'
+    })
+    
+    return resultDoc
   }
   
   const filteredContent = getFilteredContent()
@@ -1346,7 +1376,7 @@ export default function Home() {
             </div>
             {searchTerm && (
               <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                🔍 Searching for: <span className="font-semibold text-blue-600 dark:text-blue-400">{searchTerm}</span>
+                🔍 Searching across all pages for: <span className="font-semibold text-blue-600 dark:text-blue-400">{searchTerm}</span>
               </div>
             )}
           </div>
