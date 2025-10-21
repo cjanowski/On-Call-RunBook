@@ -1244,12 +1244,29 @@ export default function Home() {
 
   const currentDoc = activeTab === 'templates' ? '' : docs[activeTab as keyof typeof docs]
   
-  const filteredContent = searchTerm
-    ? currentDoc
-        .split('\n')
-        .filter(line => line.toLowerCase().includes(searchTerm.toLowerCase()))
-        .join('\n')
-    : currentDoc
+  // Enhanced search that finds sections containing the search term
+  const getFilteredContent = () => {
+    if (!searchTerm || activeTab === 'templates') return currentDoc
+    
+    const lowerSearch = searchTerm.toLowerCase()
+    const sections = currentDoc.split('\n## ')
+    
+    // Search through all content including titles and body
+    const matchingSections = sections.filter(section => 
+      section.toLowerCase().includes(lowerSearch)
+    )
+    
+    if (matchingSections.length === 0) {
+      return `# No results found for "${searchTerm}"\n\nTry searching for:\n- Command names (kubectl, helm, terraform)\n- Error messages\n- Resource types (pod, service, deployment)\n- Keywords (crash, sync, deploy)`
+    }
+    
+    // Reconstruct the document with matching sections
+    return matchingSections.map((section, index) => 
+      index === 0 ? section : '## ' + section
+    ).join('\n')
+  }
+  
+  const filteredContent = getFilteredContent()
 
   const handleTemplateChange = (template: TemplateType) => {
     setActiveTemplate(template)
@@ -1310,13 +1327,28 @@ export default function Home() {
         {/* Search Bar */}
         {activeTab !== 'templates' && (
           <div className="mb-6">
-            <input
-              type="text"
-              placeholder="Search documentation..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search commands, errors, or keywords..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 pr-24 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 px-3 py-1 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            {searchTerm && (
+              <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                🔍 Searching for: <span className="font-semibold text-blue-600 dark:text-blue-400">{searchTerm}</span>
+              </div>
+            )}
           </div>
         )}
 
